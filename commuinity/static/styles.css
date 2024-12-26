@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-color: rgb(227, 135, 23); 
+    color:rgb(2, 9, 15);
+}
+
+header {
+    background-color: #fdf8f8;
+    color: rgb(23, 22, 22);
+    padding: 10px;
+    text-align: center; 
+}
+
+header nav a {
+    color: rgb(47, 46, 46);
+    margin: 0 10px;
+    text-decoration:solid;
+}
+
+.course-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+.course-card {
+    border: 1px solid #ddd;
+    border-radius: 200px;
+    padding: 10px;
+    width: 250px;
+}
+
+.course-card img {
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+footer {
+    background-color: #333;
+    color: rgb(193, 183, 183);
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
