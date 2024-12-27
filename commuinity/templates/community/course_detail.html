@@ -1,19 +1,28 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block content %}
-<link rel="stylesheet" href="{% static 'styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
 <h2>{{ course.title }}</h2>
 <p>{{ course.description }}</p>
+<p>Price: ${{ course.price }}</p>
+
+{% if course.is_paid %}
+    <p><strong>Payment Successful!</strong></p>
+{% else %}
+    <p><strong>Status:</strong> Payment Pending</p>
+{% endif %}  
+
 <h3>Notes</h3>
 <ul>
     {% for note in course.notes.all %}
     <li>
         <h4>{{ note.title }}</h4>
         <p>{{ note.content }}</p>
-        {% endif %}
     </li>
+    {% empty %}
+        <li>No notes available for this course.</li>
     {% endfor %}
 </ul>
 {% endblock %}
+
