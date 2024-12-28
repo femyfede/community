@@ -1,7 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .models import Course
 from .forms import PaymentForm
+from django.urls import reverse
+
+
+def payment_success(request):
+    return render(request, 'community/payment_success.html')
 
 def course_list(request):
     courses = Course.objects.all()
@@ -13,34 +18,40 @@ def course_detail(request, pk):
     if request.method == 'POST':
         form = PaymentForm(request.POST)
         if form.is_valid():
-            # Simulate payment processing
             course.is_paid = True
             course.save()
-            return redirect('course_detail', pk=pk)  # Redirect to the course detail page
+            return redirect('course_detail', pk=pk)  
     else:
         form = PaymentForm()
 
     return render(request, 'community/payment.html', {'course': course, 'form': form})
+
 
 def payment_view(request, pk):
+
     course = get_object_or_404(Course, pk=pk)
-    if request.method == 'POST':
+
+    if request.method == "POST":
+
+
         form = PaymentForm(request.POST)
         if form.is_valid():
-            phone_number = form.cleaned_data['phone_number']
+            email = form.cleaned_data['email']
             payment_method = form.cleaned_data['payment_method']
+            
+            payment_success =  course.is_paid = True
+            course.save()
 
-            # Process payment here (You can integrate payment gateway APIs)
-            if payment_method == 'phone':
-                # Example: Store phone payment info
-                print(f'Phone Payment Initiated. Phone: {phone_number}, Course: {course.title}')
+            if payment_success:
+                return redirect('payment_success')  # Redirect to success page
             else:
-                print(f'Card Payment Initiated for {course.title}')
+                return HttpResponse("Payment Failed. Please try again.")
 
-            return redirect('payment_success')  # Redirect to success page
+            return redirect('payment_success')  
+        
+        # continue_payment method, but make sure the payment logic is working properly defined --- Good luck with it [ lemajr ]
+
+
     else:
         form = PaymentForm()
-    return render(request, 'community/payment.html', {'course': course, 'form': form})
-
-
-
+    return render(request, 'community/payment.html', {'form': form, 'course': course})
