@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .models import Course
 from .forms import PaymentForm
 from django.urls import reverse
@@ -28,18 +28,30 @@ def course_detail(request, pk):
 
 
 def payment_view(request, pk):
+
     course = get_object_or_404(Course, pk=pk)
-    if request.method == 'POST':
+
+    if request.method == "POST":
+
+
         form = PaymentForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
             payment_method = form.cleaned_data['payment_method']
             
-            course.is_paid = True
+            payment_success =  course.is_paid = True
             course.save()
-            return redirect('community/payment_success')  
+
+            if payment_success:
+                return redirect('payment_success')  # Redirect to success page
+            else:
+                return HttpResponse("Payment Failed. Please try again.")
+
+            return redirect('payment_success')  
+        
+        # continue_payment method, but make sure the payment logic is working properly defined --- Good luck with it [ lemajr ]
+
 
     else:
         form = PaymentForm()
-    return render(request, 'community/payment.html', {'course': course, 'form': form})
-
+    return render(request, 'community/payment.html', {'form': form, 'course': course})

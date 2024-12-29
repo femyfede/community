@@ -4,7 +4,7 @@
 <h2>Payment for {{ course.title }}</h2>
 <p>Price: ${{ course.price }}</p>
 
-<form method="post">
+<form method="post" action="{% url 'payment_view' pk=course.id %}">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Pay Now</button>
