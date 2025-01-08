@@ -7,6 +7,13 @@
 <form method="post" action="{% url 'payment_view' pk=course.id %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Pay Now</button>
+    <p>Please send payment to: <strong>0693142943</strong></p>
+    <button type="submit">Submit Payment</button>
 </form>
+
+{% if messages %}
+  {% for message in messages %}
+    <p>{{ message }}</p>
+  {% endfor %}
+{% endif %}
 {% endblock %}

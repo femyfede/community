@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Payment Successful!</h2>
-<p>Thank you for your payment.</p>
-<a href="{% url 'course_list' %}">Back to Courses</a>
+<h2>Payment Submitted Successfully</h2>
+<p>Thank you for your payment! Please wait for admin approval.</p>
+<p>You will be notified once your payment is confirmed.</p>
+
+<a href="{% url 'community\course_list' %}">Back to Courses</a>
 {% endblock %}

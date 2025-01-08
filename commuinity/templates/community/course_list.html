@@ -15,8 +15,6 @@
         <p>Price: ${{ course.price }}</p>
         {% if not course.is_paid %}
         <a href="{% url 'payment_view' course.pk %}">Pay Now</a> 
-        {% else %}
-        <p>Paid</p>
         {% endif %}
     </div>
     {% endfor %}
